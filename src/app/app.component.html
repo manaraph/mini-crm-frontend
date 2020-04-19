@@ -1,1 +1,24 @@
+<div class="navbar navbar-dark fixed-top text-white">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <a [routerLink]="['/companies']" class="navbar-brand" >Mini-CRM</a>
+    </div>
+
+    <div class="collapse navbar-collapse">
+      <ul class="nav navbar-nav">
+        <li>
+          <a [routerLink]="['/companies']" routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}" >All Companies</a>
+        </li>
+        <li><a [routerLink]="['/employees']" routerLinkActive="active" >Employees</a></li>
+      </ul>
+      <div class="navbar-header navbar-right">
+        <ul class="nav navbar-nav">
+          <li>
+            <a [routerLink]="['user/login']">Login</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
 <router-outlet></router-outlet>

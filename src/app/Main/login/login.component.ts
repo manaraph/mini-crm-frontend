@@ -15,7 +15,7 @@ export class LoginComponent implements OnInit {
     private crudService: CrudService,
   ) {
     this.loginForm = this.form.group({
-      username: ['', Validators.required],
+      email: ['', Validators.required],
       password: ['', Validators.required],
     });
    }
@@ -24,7 +24,7 @@ export class LoginComponent implements OnInit {
   }
 
   login() {
-    this.crudService.postRequestNoAuth('/auth/signin', this.loginForm.value).subscribe(res => {
+    this.crudService.postRequestNoAuth('auth/signin', this.loginForm.value).subscribe(res => {
       console.log(res);
     }, err => {
       console.log(err);

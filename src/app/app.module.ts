@@ -5,6 +5,8 @@ import { AppComponent } from './app.component';
 import { HomeComponent } from './Main/home/home.component';
 import { LoginComponent } from './Main/login/login.component';
 import { NavbarComponent } from './Main/navbar/navbar.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms'
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -16,8 +18,13 @@ import { NavbarComponent } from './Main/navbar/navbar.component';
   imports: [
     BrowserModule,
     AppRoutingModule,
+    FormsModule,
+    ReactiveFormsModule,
+    HttpClientModule,
   ],
-  providers: [],
+  providers: [
+
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

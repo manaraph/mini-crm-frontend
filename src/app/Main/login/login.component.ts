@@ -3,6 +3,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { CrudService } from 'src/app/Services/crud.service';
 import { UtilService } from 'src/app/Services/util.service';
 import { Login } from 'src/app/Models/login';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -18,6 +19,7 @@ export class LoginComponent implements OnInit {
     private form: FormBuilder,
     private crudService: CrudService,
     private utilService: UtilService,
+    private router: Router,
   ) {
     this.loginForm = this.form.group({
       email: ['', Validators.required],
@@ -33,6 +35,7 @@ export class LoginComponent implements OnInit {
       const { data } = res;
       this.message = 'Login successful';
       this.utilService.setToken(data.token);
+      this.router.navigate(['companies']); // navigate to homepage
     }, err => {
       const { error } = err;
       this.message = error.message;

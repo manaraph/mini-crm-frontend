@@ -34,7 +34,6 @@ export class LoginComponent implements OnInit {
       this.message = 'Login successful';
       this.utilService.setToken(data.token);
     }, err => {
-      console.log(err);
       const { error } = err;
       this.message = error.message;
     });

@@ -11,6 +11,8 @@ import { Login } from 'src/app/Models/login';
 })
 export class LoginComponent implements OnInit {
   loginForm: FormGroup;
+  message = '';
+  successful = false;
 
   constructor(
     private form: FormBuilder,
@@ -28,11 +30,13 @@ export class LoginComponent implements OnInit {
 
   login() {
     this.crudService.postRequestNoAuth('auth/signin', this.loginForm.value).subscribe((res: Login) => {
-      console.log(res);
       const { data } = res;
+      this.message = 'Login successful';
       this.utilService.setToken(data.token);
     }, err => {
       console.log(err);
+      const { error } = err;
+      this.message = error.message;
     });
   }
 

@@ -7,6 +7,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 export class CrudService {
   baseUrl = 'http://localhost:5000/api/v1/';
   // baseUrl = 'https://m4-mini-crm.herokuapp.com/api/v1';
+  token: string;
 
   header: HttpHeaders;
   headerFile: HttpHeaders;
@@ -15,13 +16,14 @@ export class CrudService {
   constructor(
     private http: HttpClient,
   ) {
+    this.token = localStorage.getItem('token');
     this.header = new HttpHeaders({
       'Content-Type': 'application/json',
       Accept: 'application/json',
-      // Authorization: this.token
+      Authorization: this.token
     });
     this.headerFile = new HttpHeaders({
-      // Authorization: this.token,
+      Authorization: this.token,
     });
 
     this.headerNoAuth = new HttpHeaders({
@@ -31,7 +33,10 @@ export class CrudService {
    }
 
   postRequestNoAuth(url, data) {
-    return this.http
-      .post(`${this.baseUrl + url}`, data, { headers: this.headerNoAuth });
+    return this.http.post(`${this.baseUrl + url}`, data, { headers: this.headerNoAuth });
+  }
+
+  getRequest(url) {
+    return this.http.get(`${this.baseUrl + url}`, { headers: this.header });
   }
 }

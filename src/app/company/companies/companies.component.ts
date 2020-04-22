@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { CrudService } from 'src/app/Services/crud.service';
 
 @Component({
   selector: 'app-companies',
@@ -6,10 +7,30 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./companies.component.scss']
 })
 export class CompaniesComponent implements OnInit {
+  organizations = [
+    {
+      id: 1,
+      name: 'Google',
+      email: 'info@google.com',
+      logo: null,
+      website: 'google.com'
+    }
+  ];
 
-  constructor() { }
+  constructor(
+    private crudService: CrudService,
+  ) { }
 
   ngOnInit() {
+    this.getAllCompanies();
+  }
+
+  getAllCompanies() {
+    this.crudService.getRequest('company').subscribe(res => {
+      console.log(res);
+    }, err => {
+      console.log(err);
+    });
   }
 
 }

@@ -39,4 +39,9 @@ export class CrudService {
   getRequest(url) {
     return this.http.get(`${this.baseUrl + url}`, { headers: this.header });
   }
+
+  postRequest(url, data) {
+    return this.http.post(`${this.baseUrl + url}`, data, { headers: this.header });
+  }
+
 }

@@ -16,7 +16,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let organization of organizations; let i = index;">
+        <tr *ngFor="let organization of organizations; let i = index;" [routerLink]="'/employees/'+organization.id">
           <th scope="row">{{i+1}}</th>
           <td>{{ organization.name }}</td>
           <td>{{ organization.email }}</td>

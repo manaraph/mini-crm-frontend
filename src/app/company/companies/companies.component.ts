@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CrudService } from 'src/app/Services/crud.service';
+import { Companies } from 'src/app/Models/companies';
 
 @Component({
   selector: 'app-companies',
@@ -26,8 +27,10 @@ export class CompaniesComponent implements OnInit {
   }
 
   getAllCompanies() {
-    this.crudService.getRequest('company').subscribe(res => {
-      console.log(res);
+    this.crudService.getRequest('company').subscribe((res: Companies) => {
+      const { data } = res;
+      this.organizations = data.companies;
+      // console.log(res);
     }, err => {
       console.log(err);
     });

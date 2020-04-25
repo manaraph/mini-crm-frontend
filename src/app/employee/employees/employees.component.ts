@@ -1,4 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { CrudService } from 'src/app/Services/crud.service';
+import { Router } from '@angular/router';
+import Swal from 'sweetalert2';
+import { Employees } from 'src/app/Models/employees';
 
 @Component({
   selector: 'app-employees',
@@ -6,10 +11,77 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./employees.component.scss']
 })
 export class EmployeesComponent implements OnInit {
+  employees = [];
+  employeeForm: FormGroup;
+  message = '';
+  successful = false;
+  editActivated = false;
+  employeeId: number;
 
-  constructor() { }
+  constructor(
+    private crudService: CrudService,
+    private form: FormBuilder,
+  ) {
+    this.employeeForm = this.form.group({
+      firstname: ['', Validators.required],
+      lastname: ['', Validators.required],
+      email: ['', Validators.required],
+      phone: ['', Validators.required],
+    });
+   }
 
   ngOnInit() {
+    this.getAllCompanies();
+  }
+
+  getAllCompanies() {
+    this.crudService.getRequest('employee').subscribe((res: Employees) => {
+      const { data } = res;
+      this.employees = data.employees;
+    }, err => {
+      console.log(err);
+    });
+  }
+
+  addEmployee() {
+    this.crudService.postRequest('employee', this.employeeForm.value).subscribe((res: Employees) => {
+      this.message = 'Employee was added successfully';
+      this.getAllCompanies();
+    }, err => {
+      const { error } = err;
+      this.message = error.message;
+    });
+  }
+
+  editEmployee() {
+    this.crudService.putRequest(`employee/${this.employeeId}`, this.employeeForm.value).subscribe((res: Employees) => {
+      this.message = 'Employee was updated successfully';
+      this.getAllCompanies();
+    }, err => {
+      const { error } = err;
+      this.message = error.message;
+    });
+  }
+
+  deleteEmployee(employee) {
+    Swal.fire({
+			title: 'warning!',
+			text: `You are about to delete ${employee.name}, Please confirm`,
+			icon: 'warning',
+			confirmButtonColor: '#dc3545',
+			confirmButtonText: '<i class="fa fa-times"></i> Delete',
+			confirmButtonAriaLabel: 'Confirm',
+		}).then(data => {
+      this.crudService.deleteRequest(`employee/${employee.id}`).then(res => {
+        this.message = 'Employee was deleted successfully';
+        this.getAllCompanies();
+      }).catch(err => {
+        const { error } = err;
+        this.message = error.message;
+      });
+    }).catch(err => {
+      console.log(err);
+    });
   }
 
 }

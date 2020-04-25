@@ -1,1 +1,134 @@
-<p>employees works!</p>
+<div class="container py-5"> 
+  <div class="my-1 d-flex">
+    <h2>Registered Employees</h2>
+    <div class="ml-auto h-100 my-auto">
+      <button class="btn btn-custom" data-toggle="modal" data-target="#addEmployeeModal"><i class="mr-2 fa fa-plus"></i> Add Employee</button>
+    </div>
+  </div>
+  <div class="py-3">
+    <table class="table table-striped table-bordered">
+      <thead class="thead-light">
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">First Name</th>
+          <th scope="col">Last Name</th>
+          <th scope="col">Email</th>
+          <th scope="col">Phone</th>
+          <th scope="col" class="text-center">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let employee of employees; let i = index;">
+          <th scope="row">{{i+1}}</th>
+          <td>{{ employee.firstname }}</td>
+          <td>{{ employee.lastname }}</td>
+          <td>{{ employee.email }}</td>
+          <td>{{ employee.phone }}</td>
+          <td>
+            <button class="mx-2 btn btn-primary" title="Edit Employee" (click)="employeeId = employee.id" data-toggle="modal" data-target="#editEmployeeModal">
+              <i class="fas fa-edit"></i>
+            </button>
+            <button class="mx-2 btn btn-danger" (click)="deleteEmployee(employee)" title="Delete Employee">
+              <i class="fas fa-trash"></i>
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="addEmployeeModal" tabindex="-1" role="dialog" aria-labelledby="addEmployeeModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="addEmployeeModalLabel">Add Employee</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <form class="form-signin" (ngSubmit)="addEmployee()" [formGroup]="employeeForm">
+        <div class="modal-body">
+          <div class="input-group form-group">
+            <div class="input-group-prepend">
+              <span class="input-group-text"><i class="fa fa-user"></i></span>
+            </div>
+            <input type="text" class="form-control" placeholder="First Name" formControlName="firstname">
+          </div>
+          <div class="input-group form-group">
+            <div class="input-group-prepend">
+              <span class="input-group-text"><i class="fa fa-user"></i></span>
+            </div>
+            <input type="text" class="form-control" placeholder="Last Name" formControlName="lastname">
+          </div>
+          <div class="input-group form-group">
+            <div class="input-group-prepend">
+              <span class="input-group-text"><i class="fa fa-envelope"></i></span>
+            </div>
+            <input type="email" class="form-control" placeholder="email" formControlName="email">
+          </div>
+          <div class="input-group form-group">
+            <div class="input-group-prepend">
+              <span class="input-group-text"><i class="fa fa-phone"></i></span>
+            </div>
+            <input type="text" class="form-control" placeholder="Phone Number" formControlName="phone">
+          </div>
+          <div class="text-center my-2" [ngClass]="successful ? 'text-sucess': 'text-danger'"><strong>{{ message }}</strong></div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="submit" class="btn btn-custom" [disabled]="!employeeForm.valid">Add Employee</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+
+<!-- Modal -->
+<div class="modal fade" id="editEmployeeModal" tabindex="-1" role="dialog" aria-labelledby="editEmployeeModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="editEmployeeModalLabel">Edit Employee</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <form class="form-signin" (ngSubmit)="editEmployee()" [formGroup]="employeeForm">
+        <div class="modal-body">
+          <div class="input-group form-group">
+            <div class="input-group-prepend">
+              <span class="input-group-text"><i class="fa fa-user"></i></span>
+            </div>
+            <input type="text" class="form-control" placeholder="First Name" formControlName="firstname">
+          </div>
+          <div class="input-group form-group">
+            <div class="input-group-prepend">
+              <span class="input-group-text"><i class="fa fa-user"></i></span>
+            </div>
+            <input type="text" class="form-control" placeholder="Last Name" formControlName="lastname">
+          </div>
+          <div class="input-group form-group">
+            <div class="input-group-prepend">
+              <span class="input-group-text"><i class="fa fa-envelope"></i></span>
+            </div>
+            <input type="email" class="form-control" placeholder="Email" formControlName="email">
+          </div>
+          <div class="input-group form-group">
+            <div class="input-group-prepend">
+              <span class="input-group-text"><i class="fa fa-phone"></i></span>
+            </div>
+            <input type="text" class="form-control" placeholder="Phone Number" formControlName="phone">
+          </div>
+          <div class="text-center my-2" [ngClass]="successful ? 'text-sucess': 'text-danger'"><strong>{{ message }}</strong></div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="submit" class="btn btn-custom" [disabled]="!employeeForm.valid">Update Employee</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

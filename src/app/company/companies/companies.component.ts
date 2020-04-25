@@ -3,6 +3,7 @@ import { CrudService } from 'src/app/Services/crud.service';
 import { Companies } from 'src/app/Models/companies';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-companies',
@@ -15,6 +16,7 @@ export class CompaniesComponent implements OnInit {
   message = '';
   successful = false;
   editActivated = false;
+  organizationId: number;
 
   constructor(
     private crudService: CrudService,
@@ -55,12 +57,35 @@ export class CompaniesComponent implements OnInit {
     });
   }
 
-  editCompany(organizationId) {
-    
+  editCompany() {
+    this.crudService.putRequest(`company/${this.organizationId}`, this.companyForm.value).subscribe((res: Companies) => {
+      this.message = 'Company was updated successfully';
+      this.getAllCompanies();
+    }, err => {
+      const { error } = err;
+      this.message = error.message;
+    });
   }
 
-  deleteCompany(organizationId) {
-    
+  deleteCompany(organization) {
+    Swal.fire({
+			title: 'warning!',
+			text: `You are about to delete ${organization.name}, Please confirm`,
+			icon: 'warning',
+			confirmButtonColor: '#dc3545',
+			confirmButtonText: '<i class="fa fa-times"></i> Delete',
+			confirmButtonAriaLabel: 'Confirm',
+		}).then(data => {
+      this.crudService.deleteRequest(`company/${organization.id}`).then(res => {
+        this.message = 'Company was deleted successfully';
+        this.getAllCompanies();
+      }).catch(err => {
+        const { error } = err;
+        this.message = error.message;
+      });
+    }).catch(err => {
+      console.log(err);
+    });
   }
 
 }

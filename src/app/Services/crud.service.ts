@@ -44,4 +44,12 @@ export class CrudService {
     return this.http.post(`${this.baseUrl + url}`, data, { headers: this.header });
   }
 
+  putRequest(url, data) {
+    return this.http.put(`${this.baseUrl + url}`, data, { headers: this.header });
+  }
+
+  deleteRequest(deleteUrl) {
+    return this.http.delete(`${this.baseUrl}${deleteUrl}`, { headers: this.header }).toPromise();
+  }
+
 }

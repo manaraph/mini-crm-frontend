@@ -26,10 +26,10 @@
             <button class="mx-2 btn btn-view" (click)="viewEmployees(organization.id)" title="View Employees">
               <i class="fas fa-eye"></i>
             </button>
-            <button class="mx-2 btn btn-primary" title="Edit Company" data-toggle="modal" data-target="#editCompanyModal">
+            <button class="mx-2 btn btn-primary" title="Edit Company" (click)="organizationId = organization.id" data-toggle="modal" data-target="#editCompanyModal">
               <i class="fas fa-edit"></i>
             </button>
-            <button class="mx-2 btn btn-danger" (click)="deleteCompany(organization.id)" title="Delete Company">
+            <button class="mx-2 btn btn-danger" (click)="deleteCompany(organization)" title="Delete Company">
               <i class="fas fa-trash"></i>
             </button>
           </td>
@@ -115,7 +115,7 @@
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-          <button type="submit" class="btn btn-custom" [disabled]="!companyForm.valid">Edit Company</button>
+          <button type="submit" class="btn btn-custom" [disabled]="!companyForm.valid">Update Company</button>
         </div>
       </form>
     </div>

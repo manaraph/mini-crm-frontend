@@ -17,19 +17,19 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let organization of organizations; let i = index;" [routerLink]="'/employees/'+organization.id">
+        <tr *ngFor="let organization of organizations; let i = index;">
           <th scope="row">{{i+1}}</th>
           <td>{{ organization.name }}</td>
           <td>{{ organization.email }}</td>
           <td>{{ organization.website }}</td>
           <td>
-            <button class="mx-2 btn btn-view" (click)="viewEmployees()" title="View Employees">
+            <button class="mx-2 btn btn-view" (click)="viewEmployees(organization.id)" title="View Employees">
               <i class="fas fa-eye"></i>
             </button>
-            <button class="mx-2 btn btn-primary" (click)="editCompany()" title="Edit Company">
+            <button class="mx-2 btn btn-primary" title="Edit Company" data-toggle="modal" data-target="#editCompanyModal">
               <i class="fas fa-edit"></i>
             </button>
-            <button class="mx-2 btn btn-danger" (click)="deleteCompany()" title="Delete Company">
+            <button class="mx-2 btn btn-danger" (click)="deleteCompany(organization.id)" title="Delete Company">
               <i class="fas fa-trash"></i>
             </button>
           </td>
@@ -74,6 +74,48 @@
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
           <button type="submit" class="btn btn-custom" [disabled]="!companyForm.valid">Add Company</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+
+<!-- Modal -->
+<div class="modal fade" id="editCompanyModal" tabindex="-1" role="dialog" aria-labelledby="editCompanyModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="editCompanyModalLabel">Edit Company</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <form class="form-signin" (ngSubmit)="editCompany()" [formGroup]="companyForm">
+        <div class="modal-body">
+          <div class="input-group form-group">
+            <div class="input-group-prepend">
+              <span class="input-group-text"><i class="fa fa-building"></i></span>
+            </div>
+            <input type="text" class="form-control" placeholder="Company Name" formControlName="name">
+          </div>
+          <div class="input-group form-group">
+            <div class="input-group-prepend">
+              <span class="input-group-text"><i class="fa fa-envelope"></i></span>
+            </div>
+            <input type="email" class="form-control" placeholder="email" formControlName="email">
+          </div>
+          <div class="input-group form-group">
+            <div class="input-group-prepend">
+              <span class="input-group-text"><i class="fa fa-globe"></i></span>
+            </div>
+            <input type="text" class="form-control" placeholder="website" formControlName="website">
+          </div>
+          <div class="text-center my-2" [ngClass]="successful ? 'text-sucess': 'text-danger'"><strong>{{ message }}</strong></div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="submit" class="btn btn-custom" [disabled]="!companyForm.valid">Edit Company</button>
         </div>
       </form>
     </div>

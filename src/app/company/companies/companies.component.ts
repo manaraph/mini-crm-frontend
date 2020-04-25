@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CrudService } from 'src/app/Services/crud.service';
 import { Companies } from 'src/app/Models/companies';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-companies',
@@ -13,10 +14,12 @@ export class CompaniesComponent implements OnInit {
   companyForm: FormGroup;
   message = '';
   successful = false;
+  editActivated = false;
 
   constructor(
     private crudService: CrudService,
     private form: FormBuilder,
+    private router: Router,
   ) {
     this.companyForm = this.form.group({
       name: ['', Validators.required],
@@ -39,7 +42,7 @@ export class CompaniesComponent implements OnInit {
   }
 
   viewEmployees(organizationId) {
-    
+    this.router.navigate([`/employees/${organizationId}`]);
   }
 
   addCompany() {

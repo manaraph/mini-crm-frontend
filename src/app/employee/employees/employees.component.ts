@@ -32,10 +32,10 @@ export class EmployeesComponent implements OnInit {
    }
 
   ngOnInit() {
-    this.getAllCompanies();
+    this.getAllEmployees();
   }
 
-  getAllCompanies() {
+  getAllEmployees() {
     this.crudService.getRequest('employee').subscribe((res: Employees) => {
       const { data } = res;
       this.employees = data.employees;
@@ -47,7 +47,7 @@ export class EmployeesComponent implements OnInit {
   addEmployee() {
     this.crudService.postRequest('employee', this.employeeForm.value).subscribe((res: Employees) => {
       this.message = 'Employee was added successfully';
-      this.getAllCompanies();
+      this.getAllEmployees();
     }, err => {
       const { error } = err;
       this.message = error.message;
@@ -57,7 +57,7 @@ export class EmployeesComponent implements OnInit {
   editEmployee() {
     this.crudService.putRequest(`employee/${this.employeeId}`, this.employeeForm.value).subscribe((res: Employees) => {
       this.message = 'Employee was updated successfully';
-      this.getAllCompanies();
+      this.getAllEmployees();
     }, err => {
       const { error } = err;
       this.message = error.message;
@@ -68,18 +68,26 @@ export class EmployeesComponent implements OnInit {
     Swal.fire({
 			title: 'warning!',
 			text: `You are about to delete ${employee.firstname} ${employee.lastname}, Please confirm`,
-			icon: 'warning',
+      icon: 'warning',
+      showCloseButton: true,
+      showCancelButton: true,
 			confirmButtonColor: '#dc3545',
 			confirmButtonText: '<i class="fa fa-times"></i> Delete',
 			confirmButtonAriaLabel: 'Confirm',
-		}).then(data => {
-      this.crudService.deleteRequest(`employee/${employee.id}`).then(res => {
-        this.message = 'Employee was deleted successfully';
-        this.getAllCompanies();
-      }).catch(err => {
-        const { error } = err;
-        this.message = error.message;
-      });
+		}).then(result => {
+      if (result.value) {
+        this.crudService.deleteRequest(`employee/${employee.id}`).then(res => {
+          Swal.fire(
+            'Deleted!',
+            'The employee has been deleted.',
+            'success'
+          );
+          this.getAllEmployees();
+        }).catch(err => {
+          const { error } = err;
+          this.message = error.message;
+        });
+      }
     }).catch(err => {
       console.log(err);
     });

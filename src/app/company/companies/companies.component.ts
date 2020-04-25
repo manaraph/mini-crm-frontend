@@ -71,18 +71,26 @@ export class CompaniesComponent implements OnInit {
     Swal.fire({
 			title: 'warning!',
 			text: `You are about to delete ${organization.name}, Please confirm`,
-			icon: 'warning',
+      icon: 'warning',
+      showCloseButton: true,
+      showCancelButton: true,
 			confirmButtonColor: '#dc3545',
 			confirmButtonText: '<i class="fa fa-times"></i> Delete',
 			confirmButtonAriaLabel: 'Confirm',
-		}).then(data => {
+		}).then(result => {
+      if (result.value) {
       this.crudService.deleteRequest(`company/${organization.id}`).then(res => {
-        this.message = 'Company was deleted successfully';
+        Swal.fire(
+          'Deleted!',
+          'The company has been deleted.',
+          'success'
+        );
         this.getAllCompanies();
       }).catch(err => {
         const { error } = err;
         this.message = error.message;
       });
+      }
     }).catch(err => {
       console.log(err);
     });

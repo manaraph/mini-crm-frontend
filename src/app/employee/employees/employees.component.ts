@@ -27,6 +27,7 @@ export class EmployeesComponent implements OnInit {
       lastname: ['', Validators.required],
       email: ['', Validators.required],
       phone: ['', Validators.required],
+      company: 1
     });
    }
 
@@ -66,7 +67,7 @@ export class EmployeesComponent implements OnInit {
   deleteEmployee(employee) {
     Swal.fire({
 			title: 'warning!',
-			text: `You are about to delete ${employee.name}, Please confirm`,
+			text: `You are about to delete ${employee.firstname} ${employee.lastname}, Please confirm`,
 			icon: 'warning',
 			confirmButtonColor: '#dc3545',
 			confirmButtonText: '<i class="fa fa-times"></i> Delete',

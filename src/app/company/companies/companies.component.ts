@@ -38,6 +38,10 @@ export class CompaniesComponent implements OnInit {
     });
   }
 
+  viewEmployees(organizationId) {
+    
+  }
+
   addCompany() {
     this.crudService.postRequest('company', this.companyForm.value).subscribe((res: Companies) => {
       this.message = 'Company was added successfully';
@@ -46,6 +50,14 @@ export class CompaniesComponent implements OnInit {
       const { error } = err;
       this.message = error.message;
     });
+  }
+
+  editCompany(organizationId) {
+    
+  }
+
+  deleteCompany(organizationId) {
+    
   }
 
 }

@@ -5,8 +5,9 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
   providedIn: 'root'
 })
 export class CrudService {
-  baseUrl = 'http://localhost:5000/api/v1/';
+  // baseUrl = 'http://localhost:5000/api/v1/';
   // baseUrl = 'https://m4-mini-crm.herokuapp.com/api/v1';
+  baseUrl = 'http://165.227.219.173:5700/api/v1/';
   token: string;
 
   header: HttpHeaders;

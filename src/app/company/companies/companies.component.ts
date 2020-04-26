@@ -4,6 +4,7 @@ import { Companies } from 'src/app/Models/companies';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import Swal from 'sweetalert2';
+import { SwalMixinService } from 'src/app/Services/swal-mixin.service';
 
 @Component({
   selector: 'app-companies',
@@ -22,6 +23,7 @@ export class CompaniesComponent implements OnInit {
     private crudService: CrudService,
     private form: FormBuilder,
     private router: Router,
+    private swalService: SwalMixinService,
   ) {
     this.companyForm = this.form.group({
       name: ['', Validators.required],
@@ -49,21 +51,26 @@ export class CompaniesComponent implements OnInit {
 
   addCompany() {
     this.crudService.postRequest('company', this.companyForm.value).subscribe((res: Companies) => {
-      this.message = 'Company was added successfully';
+      // this.message = 'Company was added successfully';
+      this.swalService.success('Company was added successfully');
+
       this.getAllCompanies();
     }, err => {
       const { error } = err;
-      this.message = error.message;
+      // this.message = error.message;
+      this.swalService.error(error.message);
     });
   }
 
   editCompany() {
     this.crudService.putRequest(`company/${this.organizationId}`, this.companyForm.value).subscribe((res: Companies) => {
-      this.message = 'Company was updated successfully';
+      // this.message = 'Company was updated successfully';
+      this.swalService.success('Company was updated successfully');
       this.getAllCompanies();
     }, err => {
       const { error } = err;
-      this.message = error.message;
+      // this.message = error.message;
+      this.swalService.error(error.message);
     });
   }
 
@@ -88,7 +95,8 @@ export class CompaniesComponent implements OnInit {
         this.getAllCompanies();
       }).catch(err => {
         const { error } = err;
-        this.message = error.message;
+        // this.message = error.message;
+        this.swalService.error(error.message);
       });
       }
     }).catch(err => {

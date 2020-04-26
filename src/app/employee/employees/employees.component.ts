@@ -4,6 +4,7 @@ import { CrudService } from 'src/app/Services/crud.service';
 import { ActivatedRoute } from '@angular/router';
 import Swal from 'sweetalert2';
 import { Employees } from 'src/app/Models/employees';
+import { SwalMixinService } from 'src/app/Services/swal-mixin.service';
 
 @Component({
   selector: 'app-employees',
@@ -23,6 +24,7 @@ export class EmployeesComponent implements OnInit {
     private crudService: CrudService,
     private form: FormBuilder,
     private route: ActivatedRoute,
+    private swalService: SwalMixinService,
   ) {
     this.route.params.subscribe( params => {
       this.companyId = params.id;
@@ -51,21 +53,27 @@ export class EmployeesComponent implements OnInit {
 
   addEmployee() {
     this.crudService.postRequest(`employee/${this.companyId}`, this.employeeForm.value).subscribe((res: Employees) => {
-      this.message = 'Employee was added successfully';
+      // this.message = 'Employee was added successfully';
+      this.swalService.success('Employee was added successfully');
+
       this.getEmployees();
     }, err => {
       const { error } = err;
-      this.message = error.message;
+      // this.message = error.message;
+      this.swalService.error(error.message);
     });
   }
 
   editEmployee() {
     this.crudService.putRequest(`employee/${this.employeeId}`, this.employeeForm.value).subscribe((res: Employees) => {
-      this.message = 'Employee was updated successfully';
+      // this.message = 'Employee was updated successfully';
+      this.swalService.success('Employee was updated successfully');
+
       this.getEmployees();
     }, err => {
       const { error } = err;
-      this.message = error.message;
+      // this.message = error.message;
+      this.swalService.error(error.message);
     });
   }
 
@@ -90,7 +98,8 @@ export class EmployeesComponent implements OnInit {
           this.getEmployees();
         }).catch(err => {
           const { error } = err;
-          this.message = error.message;
+          // this.message = error.message;
+          this.swalService.error(error.message);
         });
       }
     }).catch(err => {

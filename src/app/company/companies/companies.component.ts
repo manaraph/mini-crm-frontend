@@ -44,8 +44,6 @@ export class CompaniesComponent implements OnInit {
   }
 
   viewEmployees(organizationId) {
-    console.log(organizationId);
-    
     this.router.navigate([`/employees/${organizationId}`]);
   }
 
